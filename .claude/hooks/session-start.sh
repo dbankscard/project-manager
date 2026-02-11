@@ -27,7 +27,12 @@ ON_HOLD=$(grep -c '| on-hold |' "$REGISTRY" 2>/dev/null) || ON_HOLD=0
 IN_PROGRESS=0
 for board in "$PROJECT_DIR"/projects/*/board.md; do
   [[ -f "$board" ]] || continue
-  COUNT=$(awk '/^## In Progress$/,/^## /{if(/^- \[ \]/) count++} END{print count+0}' "$board" 2>/dev/null || echo "0")
+  COUNT=$(awk '
+    /^## In Progress$/ { found=1; next }
+    found && /^## / { found=0; next }
+    found && /^- \[ \]/ { count++ }
+    END { print count+0 }
+  ' "$board" 2>/dev/null || echo "0")
   IN_PROGRESS=$((IN_PROGRESS + COUNT))
 done
 

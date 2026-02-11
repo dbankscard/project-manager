@@ -10,6 +10,16 @@
             "statusMessage": "Loading project status..."
           }
         ]
+      },
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/recent-activity.sh",
+            "statusMessage": "Reviewing recent activity..."
+          }
+        ]
       }
     ],
     "PostToolUse": [
