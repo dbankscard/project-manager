@@ -3,7 +3,11 @@
 set -euo pipefail
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
+SOUNDS="$PROJECT_DIR/sounds"
 REGISTRY="$PROJECT_DIR/projects/_registry.md"
+
+# Play session start sound
+afplay "$SOUNDS/gamestart.mp3" &
 
 if [[ ! -f "$REGISTRY" ]]; then
   echo "Project manager ready. No projects tracked yet. Use /new-project to get started."

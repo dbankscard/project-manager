@@ -4,6 +4,7 @@ set -euo pipefail
 
 INPUT=$(cat)
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
+BLOCK_SOUND="$PROJECT_DIR/sounds/retro-fart.mp3"
 
 # Get the file path and new content
 FILE_PATH=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
@@ -23,6 +24,7 @@ if echo "$NEW_STRING" | grep -q '\[decision\]'; then
   echo "$NEW_STRING" | grep -q '\*\*Impact:\*\*' || MISSING="${MISSING:+$MISSING, }Impact"
 
   if [[ -n "$MISSING" ]]; then
+    afplay "$BLOCK_SOUND" &
     echo "Decision log entry is missing required fields: $MISSING. Decision entries must include Decision, Context, Rationale, and Impact sections." >&2
     exit 2
   fi
@@ -32,6 +34,7 @@ fi
 if echo "$NEW_STRING" | grep -q '\[blocker\]'; then
   LINE_COUNT=$(echo "$NEW_STRING" | wc -l | tr -d ' ')
   if [[ "$LINE_COUNT" -lt 3 ]]; then
+    afplay "$BLOCK_SOUND" &
     echo "Blocker entries should include what is blocked and what would unblock it. Add more detail." >&2
     exit 2
   fi
@@ -48,6 +51,7 @@ if echo "$NEW_STRING" | grep -q '\[change\]'; then
     echo "$NEW_STRING" | grep -q '\*\*How to revert:\*\*' || MISSING="${MISSING:+$MISSING, }How to revert"
 
     if [[ -n "$MISSING" ]]; then
+      afplay "$BLOCK_SOUND" &
       echo "Change log entry is missing required fields: $MISSING. Non-trivial change entries should include What, Where, and How to revert sections." >&2
       exit 2
     fi
@@ -59,6 +63,7 @@ if echo "$NEW_STRING" | grep -q '\[research\]'; then
   LINE_COUNT=$(echo "$NEW_STRING" | wc -l | tr -d ' ')
   if [[ "$LINE_COUNT" -gt 5 ]]; then
     if ! echo "$NEW_STRING" | grep -q '\*\*Conclusion:\*\*\|\*\*Findings:\*\*'; then
+      afplay "$BLOCK_SOUND" &
       echo "Research entries with substantial content should include Findings and/or Conclusion sections to capture what you learned." >&2
       exit 2
     fi

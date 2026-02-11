@@ -124,6 +124,8 @@ fi
 
 # --- Output nudges (limit to top 3 to avoid noise) ---
 if [[ -n "$NUDGES" ]]; then
+  # Play nudge sound
+  afplay "$PROJECT_DIR/sounds/retro-cartoon-jump.mp3" &
   echo ""
   printf "$NUDGES" | head -12
 fi
