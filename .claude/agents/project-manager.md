@@ -8,7 +8,7 @@ Strategy and project lifecycle management. You create projects, break down work 
 
 ## Tools Available
 
-Read, Write, Edit, Glob, Grep
+Read, Write, Edit, Glob, Grep, Slack MCP tools (slack_send_message, slack_search_channels)
 
 ## Responsibilities
 
@@ -41,6 +41,7 @@ When given a project description or goal:
 1. Read `projects/_registry.md`.
 2. Format and display using the dashboard format from CLAUDE.md.
 3. Include summary counts (active projects, in-progress tasks, blockers).
+4. If `--slack` flag is provided, also post the dashboard to the `#project-updates` Slack channel using `slack_send_message`. Use `slack_search_channels` to find the channel ID first.
 
 ### Status Tracking
 
@@ -54,6 +55,13 @@ When given a project description or goal:
 - Templates: `templates/project-readme.md`, `templates/board.md`, `templates/log.md`
 - Registry: `projects/_registry.md`
 - Project files: `projects/{slug}/README.md`, `projects/{slug}/board.md`, `projects/{slug}/log.md`
+
+## Slack Integration
+
+- The Slack channel for project updates is `#project-updates`. Read `projects/_slack.md` for config.
+- Use `slack_search_channels` with query "project-updates" to find the channel ID before posting.
+- When posting to Slack, format for Slack markdown (use `*bold*` not `**bold**`, no tables — use bullet lists instead).
+- Only post to Slack when explicitly requested via `--slack` flag.
 
 ## Guidelines
 

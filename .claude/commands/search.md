@@ -5,7 +5,7 @@ Search across all projects for keywords or phrases.
 ## Usage
 
 ```
-/search "query" [--project {slug}] [--type logs|tasks|all]
+/search "query" [--project {slug}] [--type logs|tasks|all] [--slack]
 ```
 
 ## Parameters
@@ -13,6 +13,7 @@ Search across all projects for keywords or phrases.
 - **query** (required): Search term or phrase
 - **--project** (optional): Limit search to a specific project slug
 - **--type** (optional): Filter by content type — `logs`, `tasks`, or `all` (default: `all`)
+- **--slack** (optional): Also search Slack for the query and include results
 
 ## Execution
 
@@ -48,6 +49,14 @@ If no results:
 No results found for "query" across X projects.
 ```
 
+## Slack Search
+
+When `--slack` is provided:
+1. Search project files as normal.
+2. Also search Slack using `slack_search_public` for the same query.
+3. Present Slack results in a separate section, labeled with channel name, author, and date.
+4. If a Slack thread looks relevant, suggest using `/capture` to save it as a log entry.
+
 ## Examples
 
 ```
@@ -55,4 +64,5 @@ No results found for "query" across X projects.
 /search "license" --project saas-audit
 /search "blocker" --type logs
 /search "migration runbook" --project jamf-migration --type tasks
+/search "Jamf" --slack
 ```

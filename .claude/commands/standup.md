@@ -5,12 +5,13 @@ Generate a standup summary from recent activity across all projects.
 ## Usage
 
 ```
-/standup [--days N]
+/standup [--days N] [--slack]
 ```
 
 ## Parameters
 
 - **--days** (optional): Number of days to look back. Default: 1 (since last business day).
+- **--slack** (optional): Also post the standup to the `#project-updates` Slack channel.
 
 ## Execution
 
@@ -50,9 +51,20 @@ If no activity found:
 No recent activity found across projects. Use /task or /log to track your work.
 ```
 
+## Slack Posting
+
+When `--slack` is provided:
+1. Generate the standup as normal.
+2. Reformat for Slack markdown (`*bold*` instead of `**bold**`, no tables).
+3. Look up the `#project-updates` channel ID using `slack_search_channels`.
+4. Post to the channel using `slack_send_message`.
+5. Confirm the post with a message link.
+
 ## Examples
 
 ```
 /standup
 /standup --days 3
+/standup --slack
+/standup --days 2 --slack
 ```

@@ -5,7 +5,7 @@ Add a structured log entry to a project.
 ## Usage
 
 ```
-/log {project-slug} {tag} "Entry title or content"
+/log {project-slug} {tag} "Entry title or content" [--slack]
 ```
 
 ## Parameters
@@ -98,6 +98,8 @@ Content here.
 ## Examples
 
 ```
+/log jamf-migration blocker "Waiting on ABM access" --slack
+/log jamf-migration milestone "Pilot migration complete" --slack
 /log jamf-migration decision "Using DEP re-enrollment over manual migration"
 /log jamf-migration research "Comparing Jamf enrollment methods"
 /log jamf-migration change "Enabled DEP token in Jamf Pro cloud instance"

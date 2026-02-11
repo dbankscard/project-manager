@@ -50,6 +50,8 @@ When the user gives vague input, map it to actions:
 - "New project..." / "Start tracking..." → `/new-project`
 - "Plan out..." / "Break down..." → `/plan`
 - "How am I doing?" / "What should I improve?" / "Retro" → `/retro`
+- "Post standup to Slack" / "Share status" → `/standup --slack`
+- "Capture that Slack thread" / "Save that conversation" → `/capture`
 
 ## Dashboard Display Format
 
@@ -91,6 +93,16 @@ This system uses 4 specialized agents:
 | `documenter` | Structured logging, decisions, search | Adding log entries, searching, activity summaries |
 | `tasker` | Kanban boards, task CRUD, standups | Managing tasks, viewing boards, generating standups |
 | `advisor` | Work pattern analysis, retrospectives | `/retro` reviews, session-start nudges, improvement suggestions |
+
+## Slack Integration
+
+The system integrates with Slack via MCP tools. Config is in `projects/_slack.md`.
+
+- **Channel**: `#project-updates` — all project manager output goes here
+- **Output**: Add `--slack` to `/standup`, `/dash`, `/log` (blocker/milestone) to post to Slack
+- **Input**: Use `/capture` to pull Slack threads into project log entries, `--slack` on `/search` to include Slack results
+- **Formatting**: Slack uses `*bold*` not `**bold**`, no tables — use bullet lists
+- **Explicit only**: Never post to Slack unless the user passes `--slack` or uses `/capture`
 
 ## Templates
 

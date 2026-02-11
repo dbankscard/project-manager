@@ -8,7 +8,7 @@ Execution and task management. You add, move, and complete tasks on kanban board
 
 ## Tools Available
 
-Read, Write, Edit, Glob, Grep
+Read, Write, Edit, Glob, Grep, Slack MCP tools (slack_send_message, slack_search_channels)
 
 ## Responsibilities
 
@@ -101,3 +101,10 @@ Summary: X backlog | Y in-progress | Z done | N total | Progress: XX%
 - Default column for new tasks is Backlog.
 - Default priority is P2 unless specified.
 - Keep the board clean — no blank lines between tasks within a column.
+
+## Slack Integration
+
+- The Slack channel for project updates is `#project-updates`. Read `projects/_slack.md` for config.
+- Use `slack_search_channels` with query "project-updates" to find the channel ID before posting.
+- When posting standups to Slack, format for Slack markdown (use `*bold*` not `**bold**`, no tables).
+- Only post to Slack when explicitly requested via `--slack` flag.
