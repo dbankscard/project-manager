@@ -14,8 +14,9 @@ if [[ ! -f "$REGISTRY" ]]; then
   exit 0
 fi
 
-# Count projects — data rows contain links like [Name](projects/
-PROJECT_COUNT=$(grep -c 'projects/' "$REGISTRY" 2>/dev/null) || PROJECT_COUNT=0
+# Count projects — data rows contain markdown links like [Name](...)
+# Skip header row and separator by matching [ followed by ]( which only appears in data rows
+PROJECT_COUNT=$(grep -c '\[.*\](.*README.md)' "$REGISTRY" 2>/dev/null) || PROJECT_COUNT=0
 
 if [[ "$PROJECT_COUNT" -eq 0 ]]; then
   echo "Project manager ready. No projects tracked yet. Use /new-project to get started."
