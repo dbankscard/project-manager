@@ -47,6 +47,7 @@ When the user gives vague input, map it to actions:
 - "Find..." / "Where did I..." → `/search`
 - "New project..." / "Start tracking..." → `/new-project`
 - "Plan out..." / "Break down..." → `/plan`
+- "How am I doing?" / "What should I improve?" / "Retro" → `/retro`
 
 ## Dashboard Display Format
 
@@ -80,13 +81,14 @@ Summary: X active projects, Y tasks in progress, Z blockers
 
 ## Agents
 
-This system uses 3 specialized agents:
+This system uses 4 specialized agents:
 
 | Agent | Role | When to Use |
 |-------|------|-------------|
 | `project-manager` | Strategy, planning, project lifecycle | Creating projects, planning, dashboards, status |
 | `documenter` | Structured logging, decisions, search | Adding log entries, searching, activity summaries |
 | `tasker` | Kanban boards, task CRUD, standups | Managing tasks, viewing boards, generating standups |
+| `advisor` | Work pattern analysis, retrospectives | `/retro` reviews, session-start nudges, improvement suggestions |
 
 ## Templates
 

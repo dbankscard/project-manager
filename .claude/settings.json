@@ -20,6 +20,16 @@
             "statusMessage": "Reviewing recent activity..."
           }
         ]
+      },
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/advisor-nudge.sh",
+            "statusMessage": "Checking for advisor nudges..."
+          }
+        ]
       }
     ],
     "PostToolUse": [
