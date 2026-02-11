@@ -26,7 +26,7 @@ A master registry at `projects/_registry.md` serves as a cached index of all pro
 4. **Progress tracking** — percentage in README and registry, calculated from board task completion.
 5. **Slugs are kebab-case** — derived from project name (e.g., "Migrate to Jamf" → `migrate-to-jamf`).
 6. **Dates are ISO 8601** — `YYYY-MM-DD` everywhere.
-7. **Log entry tags**: `[note]`, `[decision]`, `[result]`, `[blocker]`, `[milestone]` — always lowercase in brackets.
+7. **Log entry tags**: `[note]`, `[decision]`, `[research]`, `[change]`, `[result]`, `[blocker]`, `[milestone]` — always lowercase in brackets.
 
 ## File Conventions
 
@@ -42,6 +42,8 @@ When the user gives vague input, map it to actions:
 - "What's going on?" / "Status?" → `/dash`
 - "Add a task to..." → `/task add`
 - "I decided to..." / "We chose..." → `/log {project} decision`
+- "I changed..." / "I updated..." / "Deployed..." → `/log {project} change`
+- "I looked into..." / "I found out..." / "Comparing..." → `/log {project} research`
 - "Move X to done" / "Finish X" → `/task done`
 - "What did I do?" / "Standup" → `/standup`
 - "Find..." / "Where did I..." → `/search`

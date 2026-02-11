@@ -14,7 +14,7 @@ if [[ -z "$FILE_PATH" ]] || [[ "$FILE_PATH" != *"/projects/"*"/log.md" ]]; then
   exit 0
 fi
 
-# If the edit contains a [decision] tag, verify the template fields are present
+# [decision] — require full template
 if echo "$NEW_STRING" | grep -q '\[decision\]'; then
   MISSING=""
   echo "$NEW_STRING" | grep -q '\*\*Decision:\*\*' || MISSING="Decision"
@@ -28,13 +28,40 @@ if echo "$NEW_STRING" | grep -q '\[decision\]'; then
   fi
 fi
 
-# If the edit contains a [blocker] tag, check for actionable content
+# [blocker] — require actionable detail
 if echo "$NEW_STRING" | grep -q '\[blocker\]'; then
-  # Blockers should be more than just a title — need some body content
   LINE_COUNT=$(echo "$NEW_STRING" | wc -l | tr -d ' ')
   if [[ "$LINE_COUNT" -lt 3 ]]; then
     echo "Blocker entries should include what is blocked and what would unblock it. Add more detail." >&2
     exit 2
+  fi
+fi
+
+# [change] — require What/Where/How to revert for non-trivial entries
+if echo "$NEW_STRING" | grep -q '\[change\]'; then
+  LINE_COUNT=$(echo "$NEW_STRING" | wc -l | tr -d ' ')
+  # Only enforce template for entries longer than 2 lines (non-trivial)
+  if [[ "$LINE_COUNT" -gt 2 ]]; then
+    MISSING=""
+    echo "$NEW_STRING" | grep -q '\*\*What:\*\*' || MISSING="What"
+    echo "$NEW_STRING" | grep -q '\*\*Where:\*\*' || MISSING="${MISSING:+$MISSING, }Where"
+    echo "$NEW_STRING" | grep -q '\*\*How to revert:\*\*' || MISSING="${MISSING:+$MISSING, }How to revert"
+
+    if [[ -n "$MISSING" ]]; then
+      echo "Change log entry is missing required fields: $MISSING. Non-trivial change entries should include What, Where, and How to revert sections." >&2
+      exit 2
+    fi
+  fi
+fi
+
+# [research] — soft check: warn if no conclusion on substantial entries
+if echo "$NEW_STRING" | grep -q '\[research\]'; then
+  LINE_COUNT=$(echo "$NEW_STRING" | wc -l | tr -d ' ')
+  if [[ "$LINE_COUNT" -gt 5 ]]; then
+    if ! echo "$NEW_STRING" | grep -q '\*\*Conclusion:\*\*\|\*\*Findings:\*\*'; then
+      echo "Research entries with substantial content should include Findings and/or Conclusion sections to capture what you learned." >&2
+      exit 2
+    fi
   fi
 fi
 
