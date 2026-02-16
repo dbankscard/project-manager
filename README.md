@@ -110,6 +110,7 @@ project-manager/
 | `/search` | Search across all projects |
 | `/retro` | Retrospective and work pattern analysis |
 | `/capture` | Capture Slack threads into project logs |
+| `/setup` | Check MCP connections, files, agents, and system health |
 
 Most commands support `--slack` to post output to a Slack channel.
 

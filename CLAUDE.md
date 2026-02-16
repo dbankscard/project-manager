@@ -56,6 +56,7 @@ When the user gives vague input, map it to actions:
 - "Inbox" / "Messages" / "Triage" → `/triage`
 - "Vendors" / "Renewals" / "Account reps" / "Who haven't I talked to" → `/enrich`
 - "Goals" / "Objectives" / "OKRs" → Read `goals.yaml` and report
+- "Setup" / "Check connections" / "What's connected" → `/setup`
 
 ## Dashboard Display Format
 
