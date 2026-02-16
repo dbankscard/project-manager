@@ -24,6 +24,7 @@ Delegate to the **tasker** agent to:
    - **In Progress**: Tasks currently in the `## In Progress` column.
    - **Blockers**: Any `[blocker]` log entries from the lookback period.
    - **Up Next**: Top-priority tasks from Backlog and Research columns.
+   - **Goals Progress**: Read `goals.yaml` and show progress on active objectives.
 4. Format and display the standup.
 
 ## Output Format
@@ -42,6 +43,10 @@ Delegate to the **tasker** agent to:
 
 ## Up Next
 - [project-slug] Task description `P1`
+
+## Goals Progress
+- Objective name — 60% (on track)
+- Objective name — 40% (at risk)
 ```
 
 If no activity found:

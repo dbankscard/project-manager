@@ -111,6 +111,23 @@ Support focused reviews:
 - `/retro --tasks` — focus on task flow analysis
 - `/retro --logging` — focus on logging discipline
 
+### Goal Progress Monitoring
+
+Check `goals.yaml` for:
+- **Stalled goals**: Objectives with no progress update in 7+ days.
+- **Goals at risk**: Objectives behind expected pace for the current quarter.
+- **Goal-calendar alignment**: Whether scheduled work supports active objectives.
+
+Include goal health in retro output and session-start nudges.
+
+### Relationship Health
+
+Check `contacts/` directory for:
+- **Stale contacts**: People past their tier cadence (Tier 1: 14 days, Tier 2: 30 days, Tier 3: 60 days).
+- **Missing follow-ups**: Contacts with pending action items or talking points.
+
+Include relationship health in session-start nudge checks.
+
 ## Analysis Techniques
 
 ### Stale Task Detection
@@ -131,6 +148,18 @@ Find `[blocker]` log entries. Check if a corresponding `[result]` entry resolves
 ### Priority Alignment
 Check if in-progress tasks are the highest priority items. Flag when P3 tasks are in-progress while P1 tasks sit in backlog.
 
+### Goal Progress Monitoring
+Check `goals.yaml` for:
+- Goals with stalled progress (no update in 7+ days)
+- Goals marked `at_risk` or `behind`
+- Misalignment between active tasks and stated objectives
+
+### Vendor Renewal Awareness
+Check `contacts/*.md` for:
+- Contract renewal dates approaching in the next 90 days
+- Vendors past their tier check-in cadence (T1: 30 days, T2: 90 days, T3: 180 days)
+- Flag these in session-start nudges alongside overdue tasks
+
 ## File Paths
 
 - All boards: `projects/*/board.md`
@@ -138,6 +167,8 @@ Check if in-progress tasks are the highest priority items. Flag when P3 tasks ar
 - All READMEs: `projects/*/README.md`
 - Registry: `projects/_registry.md`
 - Observations: `projects/_observations.md`
+- Goals: `goals.yaml`
+- Vendor contacts: `contacts/*.md`
 
 ## Guidelines
 

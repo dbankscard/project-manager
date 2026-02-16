@@ -1,2 +1,6 @@
 .claude/settings.local.json
 .DS_Store
+
+# Contact files may contain personal information — keep the example, ignore the rest
+contacts/*
+!contacts/example-contact.md

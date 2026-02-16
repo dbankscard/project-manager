@@ -18,8 +18,9 @@ Delegate to the **project-manager** agent to:
 
 1. Read `projects/_registry.md`.
 2. For each project, optionally read the README for additional context.
-3. Format and display using the dashboard format.
-4. Include summary counts.
+3. Read `goals.yaml` and extract the top 2–3 active objectives with progress.
+4. Format and display using the dashboard format.
+5. Include summary counts.
 
 ## Output Format
 
@@ -29,6 +30,12 @@ Delegate to the **project-manager** agent to:
 | Project | Status | Priority | Progress | Next Milestone |
 |---------|--------|----------|----------|----------------|
 | [Project Name](projects/slug/README.md) | active | P1 | 35% | Milestone name |
+
+---
+
+## Goals
+- Objective name — ██████░░░░ 60%
+- Objective name — ████░░░░░░ 40%
 
 ---
 Summary: X active projects | Y tasks in progress | Z blockers

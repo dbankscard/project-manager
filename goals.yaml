@@ -1,0 +1,49 @@
+# Goals — Quarterly Objectives
+# Source of truth for "what should I be working on?"
+# Referenced by /gm briefings, /dash, task prioritization
+# Update quarterly. Review weekly.
+#
+# Customize these once you start at XBOW.
+# Replace the onboarding placeholders with your actual objectives.
+
+quarter: "Q1 2026"
+last_updated: "2026-02-16"
+
+objectives:
+  - name: "Onboard at XBOW"
+    target: "Full ramp — own systems and processes by end of first 90 days"
+    priority: 1
+    key_results:
+      - "Complete IT environment audit (inventory, architecture, tooling)"
+      - "Get access to all critical systems and accounts"
+      - "Document current state of endpoint management, networking, and security"
+      - "Build relationships with key stakeholders (engineering, security, ops)"
+    progress: 0.0
+    status: "on_track"
+    notes: "Update this as you learn the lay of the land"
+
+# Add more objectives as they emerge. Examples for a Senior IT Engineer:
+#
+#  - name: "Standardize endpoint management"
+#    target: "Unified MDM across all devices by end of Q2"
+#    priority: 2
+#    key_results:
+#      - "Evaluate and select MDM platform"
+#      - "Enroll 100% of corporate devices"
+#      - "Automate provisioning for new hires"
+#    progress: 0.0
+#    status: "on_track"
+#    notes: ""
+#
+#  - name: "Improve security posture"
+#    target: "Pass internal security audit with zero critical findings"
+#    priority: 2
+#    key_results:
+#      - "Implement SSO across all SaaS apps"
+#      - "Deploy EDR to all endpoints"
+#      - "Establish patch management cadence"
+#    progress: 0.0
+#    status: "on_track"
+#    notes: ""
+
+personal: []

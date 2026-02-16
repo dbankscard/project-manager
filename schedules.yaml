@@ -1,0 +1,57 @@
+# Schedules — Automated Command Triggers
+# Defines recurring commands that run on a schedule.
+#
+# HOW TO AUTOMATE:
+# These schedules are declarative config. To actually run them, set up
+# cron jobs or macOS launchd agents that invoke Claude Code with the
+# corresponding command.
+#
+# Example cron entry (add via `crontab -e`):
+#   0 7 * * * cd /path/to/project-manager && claude -p "/gm" 2>&1 >> /tmp/pm-gm.log
+#
+# Example launchd plist (save to ~/Library/LaunchAgents/com.pm.morning-briefing.plist):
+#   <dict>
+#     <key>Label</key><string>com.pm.morning-briefing</string>
+#     <key>ProgramArguments</key>
+#     <array>
+#       <string>/usr/local/bin/claude</string>
+#       <string>-p</string>
+#       <string>/gm</string>
+#     </array>
+#     <key>WorkingDirectory</key><string>/path/to/project-manager</string>
+#     <key>StartCalendarInterval</key>
+#     <dict><key>Hour</key><integer>7</integer><key>Minute</key><integer>0</integer></dict>
+#   </dict>
+#
+# Load with: launchctl load ~/Library/LaunchAgents/com.pm.morning-briefing.plist
+
+schedules:
+  - name: "Morning Briefing"
+    command: "/gm"
+    cron: "0 7 * * *"          # Daily at 7:00 AM
+    description: "Start-of-day briefing with calendar, priorities, and nudges"
+    enabled: true
+
+  - name: "Midday Triage"
+    command: "/triage"
+    cron: "0 12 * * *"         # Daily at 12:00 PM
+    description: "Midday review of inbox, tasks, and reprioritization"
+    enabled: true
+
+  - name: "Evening Triage"
+    command: "/triage"
+    cron: "0 17 * * *"         # Daily at 5:00 PM
+    description: "End-of-day triage and planning for tomorrow"
+    enabled: false
+
+  - name: "Task Check"
+    command: "/standup"
+    cron: "0 */2 * * *"        # Every 2 hours
+    description: "Quick task status check and progress snapshot"
+    enabled: false
+
+  - name: "Relationship Check"
+    command: "/enrich stale"
+    cron: "0 9 * * 1"          # Weekly on Monday at 9:00 AM
+    description: "Review stale contacts and suggest outreach"
+    enabled: true

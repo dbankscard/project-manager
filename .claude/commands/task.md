@@ -5,7 +5,7 @@ Create, move, or complete tasks on a project's kanban board.
 ## Usage
 
 ```
-/task add {project-slug} "Task description" [P1|P2|P3] [#tag ...] [due:YYYY-MM-DD]
+/task add {project-slug} "Task description" [P1|P2|P3] [#tag ...] [due:YYYY-MM-DD] [goal:goal-name]
 /task move {project-slug} "Task description" {target-column}
 /task done {project-slug} "Task description"
 /task list {project-slug} [--priority P1] [--tag #tag] [--column in-progress]
@@ -33,6 +33,7 @@ List and filter tasks. Supports filtering by priority, tag, and column.
 - **priority** (optional): `P0`, `P1`, `P2`, `P3` — default P2
 - **tags** (optional): One or more `#tag` values
 - **due date** (optional): `due:YYYY-MM-DD`
+- **goal** (optional): `goal:goal-name` — link the task to a goal from `goals.yaml`
 - **target-column** (required for move): Destination column name
 
 ## Execution
@@ -40,9 +41,10 @@ List and filter tasks. Supports filtering by priority, tag, and column.
 Delegate to the **tasker** agent to:
 
 1. Read the project's `board.md`.
-2. Perform the requested action.
-3. After completing tasks: recalculate progress, update README and registry.
-4. Display confirmation.
+2. For `add` actions: check `goals.yaml` and flag if the task doesn't align with any active goal.
+3. Perform the requested action.
+4. After completing tasks: recalculate progress, update README and registry.
+5. Display confirmation.
 
 ## Task Format
 

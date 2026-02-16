@@ -52,6 +52,10 @@ When the user gives vague input, map it to actions:
 - "How am I doing?" / "What should I improve?" / "Retro" → `/retro`
 - "Post standup to Slack" / "Share status" → `/standup --slack`
 - "Capture that Slack thread" / "Save that conversation" → `/capture`
+- "Good morning" / "Start my day" → `/gm`
+- "Inbox" / "Messages" / "Triage" → `/triage`
+- "Vendors" / "Renewals" / "Account reps" / "Who haven't I talked to" → `/enrich`
+- "Goals" / "Objectives" / "OKRs" → Read `goals.yaml` and report
 
 ## Dashboard Display Format
 
@@ -85,7 +89,7 @@ Summary: X active projects, Y tasks in progress, Z blockers
 
 ## Agents
 
-This system uses 4 specialized agents:
+This system uses 5 specialized agents:
 
 | Agent | Role | When to Use |
 |-------|------|-------------|
@@ -93,6 +97,7 @@ This system uses 4 specialized agents:
 | `documenter` | Structured logging, decisions, search | Adding log entries, searching, activity summaries |
 | `tasker` | Kanban boards, task CRUD, standups | Managing tasks, viewing boards, generating standups |
 | `advisor` | Work pattern analysis, retrospectives | `/retro` reviews, session-start nudges, improvement suggestions |
+| `chief-of-staff` | Personal productivity, briefings, triage, contacts | Morning briefings, inbox triage, contact enrichment, goal tracking |
 
 ## Slack Integration
 
@@ -107,3 +112,37 @@ The system integrates with Slack via MCP tools. Config is in `projects/_slack.md
 ## Templates
 
 Templates live in `templates/` and are used when scaffolding new projects. They contain placeholder tokens (`{{name}}`, `{{slug}}`, etc.) that get replaced during project creation.
+
+## Goals & Objectives
+
+- `goals.yaml` at the project root is the source of truth for priorities.
+- Claude references goals when prioritizing tasks, triaging inbox, and during briefings.
+- Format: quarter, objectives with key_results, progress (0.0–1.0), status.
+- Push back when work drifts from stated priorities.
+
+## Vendor Contacts
+
+- `contacts/` directory at the project root stores one markdown file per vendor.
+- Tracks account reps, contracts, renewal dates, escalation paths, and interaction history.
+- Tiers control check-in cadence:
+  - **T1** — Critical vendors (MDM, identity, security) — monthly check-in
+  - **T2** — Important vendors (productivity, collaboration) — quarterly
+  - **T3** — Peripheral vendors (misc tools, low-touch) — semi-annual
+- `/enrich` command manages the vendor CRM — flags upcoming renewals and stale relationships.
+- Filename convention: `vendor-name.md` (kebab-case).
+
+## MCP Integration
+
+This system uses [MCPorter](https://mcporter.com) to manage MCP server connections. MCP servers extend Claude's capabilities to external services like Slack, Gmail, Google Calendar, and more.
+
+- Configure MCP servers via MCPorter for inbox triage, calendar integration, and Slack connectivity.
+- The system degrades gracefully — if an MCP server isn't connected, commands skip that channel silently.
+- `/triage` and `/gm` automatically detect available MCP tools and adapt their output.
+
+## Chief of Staff Features
+
+- `/gm`: Morning briefing (calendar + projects + tasks + goals + urgent items).
+- `/triage`: Inbox triage with tiered prioritization and draft responses.
+- `/enrich`: Contact enrichment and relationship health checks.
+- Operating modes: Prioritize, Decide, Draft, Coach, Synthesize, Explore.
+- **Message guardrail**: NEVER send messages without explicit approval.

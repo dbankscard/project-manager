@@ -96,7 +96,29 @@ for logfile in "$PROJECT_DIR"/projects/*/log.md; do
   fi
 done
 
-# --- Check 5: Priority inversion (P3 in-progress while P1 in backlog) ---
+# --- Check 5: Goals staleness (goals.yaml not updated in 14+ days) ---
+GOALS_FILE="$PROJECT_DIR/goals.yaml"
+if [[ -f "$GOALS_FILE" ]]; then
+  GOALS_UPDATED=$(grep 'last_updated:' "$GOALS_FILE" 2>/dev/null | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}' | head -1)
+  if [[ -n "$GOALS_UPDATED" ]]; then
+    GOALS_EPOCH=$(date -j -f "%Y-%m-%d" "$GOALS_UPDATED" "+%s" 2>/dev/null || echo "0")
+    TODAY_EPOCH=$(date "+%s")
+    if [[ "$GOALS_EPOCH" -gt 0 ]]; then
+      GOALS_AGE=$(( (TODAY_EPOCH - GOALS_EPOCH) / 86400 ))
+      if [[ "$GOALS_AGE" -ge 14 ]]; then
+        NUDGES="${NUDGES}[advisor] goals.yaml hasn't been updated in $GOALS_AGE days. Consider reviewing your objectives.\n"
+      fi
+    fi
+  fi
+
+  # Check for goals marked "behind" or "at_risk"
+  AT_RISK_GOALS=$(grep -c 'status:.*\(at_risk\|behind\)' "$GOALS_FILE" 2>/dev/null) || AT_RISK_GOALS=0
+  if [[ "$AT_RISK_GOALS" -gt 0 ]]; then
+    NUDGES="${NUDGES}[advisor] $AT_RISK_GOALS goal(s) marked at-risk or behind. Run /gm for a full briefing.\n"
+  fi
+fi
+
+# --- Check 6: Priority inversion (P3 in-progress while P1 in backlog) ---
 HAS_P1_BACKLOG=false
 HAS_LOW_PRI_WIP=false
 for board in "${BOARDS[@]}"; do
