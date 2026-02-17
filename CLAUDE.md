@@ -135,7 +135,7 @@ Templates live in `templates/` and are used when scaffolding new projects. They 
 
 ## MCP Integration
 
-This system uses [MCPorter](https://mcporter.com) to manage MCP server connections. MCP servers extend Claude's capabilities to external services like Slack, Gmail, Google Calendar, and more.
+This system uses [MCPorter](https://github.com/steipete/mcporter) to manage MCP server connections. MCP servers extend Claude's capabilities to external services like Slack, Gmail, Google Calendar, and more.
 
 - Configure MCP servers via MCPorter for inbox triage, calendar integration, and Slack connectivity.
 - The system degrades gracefully — if an MCP server isn't connected, commands skip that channel silently.

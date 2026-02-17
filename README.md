@@ -213,7 +213,7 @@ Hooks run automatically during your session:
 
 ## MCP Integration
 
-Connect external services via [MCPorter](https://mcporter.com) for a richer experience:
+Connect external services via [MCPorter](https://github.com/steipete/mcporter) for a richer experience:
 
 | Server | What It Enables |
 |--------|-----------------|
@@ -252,7 +252,7 @@ Run `/setup` to check what's connected.
    /setup
    ```
 
-4. (Optional) Connect MCP servers for Slack, Gmail, and Calendar via [MCPorter](https://mcporter.com).
+4. (Optional) Connect MCP servers for Slack, Gmail, and Calendar via [MCPorter](https://github.com/steipete/mcporter).
 
 5. Edit `goals.yaml` with your quarterly objectives.
 
