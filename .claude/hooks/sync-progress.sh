@@ -35,9 +35,11 @@ fi
 # Get previous done count from README (before this edit)
 PREV_PROGRESS=$(grep -oE '[0-9]+%' "$README_FILE" 2>/dev/null | head -1 | tr -d '%') || PREV_PROGRESS=0
 
-# Count tasks
-TOTAL=$(grep -c '^\- \[[ x]\]' "$BOARD_FILE" 2>/dev/null || echo 0)
-DONE=$(grep -c '^\- \[x\]' "$BOARD_FILE" 2>/dev/null || echo 0)
+# Count tasks (grep -c prints count but exits 1 on no match; || true prevents crash)
+TOTAL=$(grep -c '^\- \[[ x]\]' "$BOARD_FILE" 2>/dev/null || true)
+TOTAL=${TOTAL:-0}
+DONE=$(grep -c '^\- \[x\]' "$BOARD_FILE" 2>/dev/null || true)
+DONE=${DONE:-0}
 
 if [[ "$TOTAL" -eq 0 ]]; then
   PROGRESS="0"
@@ -53,8 +55,7 @@ fi
 # Update registry progress for this project
 if [[ -f "$REGISTRY" ]]; then
   # Match the row containing the slug and update the progress column
-  # Registry links may be (slug/README.md) or (projects/slug/README.md)
-  sed -i '' "s|\(| \[.*\](.*${SLUG}/README.md) |[^|]*|[^|]*| \)[0-9]*%\( |.*\)|\1${PROGRESS}%\2|" "$REGISTRY" 2>/dev/null || true
+  sed -i '' "/${SLUG}/s/| [0-9]*% |/| ${PROGRESS}% |/" "$REGISTRY" 2>/dev/null || true
 fi
 
 # Play task completion sound if progress increased
