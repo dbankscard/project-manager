@@ -26,7 +26,7 @@ You interact with them through slash commands in Claude Code. The system reads y
 ## Quick Start
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/project-manager.git
+git clone https://github.com/dbankscard/project-manager.git
 cd project-manager
 claude
 ```
@@ -238,7 +238,7 @@ Run `/setup` to check what's connected.
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/project-manager.git
+   git clone https://github.com/dbankscard/project-manager.git
    cd project-manager
    ```
 
