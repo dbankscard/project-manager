@@ -58,4 +58,4 @@ done
 
 echo "Project Manager — $PROJECT_COUNT projects ($ACTIVE active, $PLANNING planning, $ON_HOLD on hold) | $IN_PROGRESS tasks in progress | $BLOCKER_COUNT recent blockers"
 echo ""
-echo "Commands: /gm /dash /triage /enrich /new-project /task /log /board /plan /standup /search /setup"
+echo "Commands: /gm /dash /triage /enrich /new-project /task /log /board /plan /standup /search /setup /run"

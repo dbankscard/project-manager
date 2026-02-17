@@ -57,6 +57,7 @@ When the user gives vague input, map it to actions:
 - "Vendors" / "Renewals" / "Account reps" / "Who haven't I talked to" → `/enrich`
 - "Goals" / "Objectives" / "OKRs" → Read `goals.yaml` and report
 - "Setup" / "Check connections" / "What's connected" → `/setup`
+- "Run this" / "Execute" / "Build the scripts" / "Generate a report" → `/run`
 
 ## Dashboard Display Format
 
@@ -146,4 +147,5 @@ This system uses [MCPorter](https://mcporter.com) to manage MCP server connectio
 - `/triage`: Inbox triage with tiered prioritization and draft responses.
 - `/enrich`: Contact enrichment and relationship health checks.
 - Operating modes: Prioritize, Decide, Draft, Coach, Synthesize, Explore.
+- `/run`: Execute a task — spawn an agent to build scripts, configs, reports, and runbooks. Output saved to `projects/{slug}/artifacts/`.
 - **Message guardrail**: NEVER send messages without explicit approval.
