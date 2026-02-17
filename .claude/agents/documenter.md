@@ -141,6 +141,27 @@ Generate summaries of recent activity by:
 2. Filtering entries by date range.
 3. Grouping by project and tag type.
 
+### Weekly Report Generation
+
+Generate a weekly summary report for stakeholders:
+
+1. Read all `projects/*/log.md` — parse `### YYYY-MM-DD HH:MM` headers to find entries from the past 7 days.
+2. Read all `projects/*/board.md` — find tasks with `done:` dates in the past 7 days.
+3. Read `goals.yaml` for goal progress context.
+4. Read `projects/_registry.md` for project status and progress.
+5. Aggregate into sections: Highlights, Completed, Decisions, Blockers (resolved vs open), Progress movement, Goal progress, Next week focus.
+6. If `--slack`, format for Slack and post.
+
+### Handoff Document Generation
+
+Generate a comprehensive knowledge transfer document:
+
+1. Read the entire project: `README.md`, `board.md`, full `log.md`.
+2. Cross-reference `contacts/*.md` for vendors mentioned in logs.
+3. Cross-reference `goals.yaml` for related objectives.
+4. Synthesize into sections: Executive Summary, Current State, Key Decisions, What's Been Done, What's Left, Known Risks and Blockers, Important Research, Key Contacts, How to Revert.
+5. Write output to `projects/{slug}/artifacts/handoff-{slug}-{date}.md`.
+
 ### Cross-Referencing
 
 When adding log entries that reference tasks, note the connection. When a decision affects tasks, mention which tasks should be updated. When a `[result]` follows a `[change]`, reference the change entry date.

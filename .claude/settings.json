@@ -33,6 +33,36 @@
             "statusMessage": "Checking for advisor nudges..."
           }
         ]
+      },
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/eod-reminder.sh",
+            "statusMessage": "Checking end-of-day status..."
+          }
+        ]
+      },
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/weekly-reminder.sh",
+            "statusMessage": "Checking weekly report status..."
+          }
+        ]
+      },
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/archive-suggestion.sh",
+            "statusMessage": "Checking for archivable projects..."
+          }
+        ]
       }
     ],
     "PostToolUse": [

@@ -19,11 +19,15 @@ Add tasks to a project's `board.md` file under the specified column (default: Ba
 **Task format:**
 ```markdown
 - [ ] Task description `P2` `#tag` `due:YYYY-MM-DD`
+- [ ] Task description `P2` `#tag` `due:YYYY-MM-DD` `recur:monthly`
+- [ ] Task description `P1` `blocked-by:Other task description`
 ```
 
 - Priority: `P0`, `P1`, `P2`, `P3` (default P2)
 - Tags: `#tag-name` — any number of tags
 - Due date: `due:YYYY-MM-DD` — optional
+- Recurrence: `recur:weekly`, `recur:monthly`, `recur:quarterly` — optional, auto-creates next instance on completion
+- Dependencies: `blocked-by:Task text fragment` — optional, indicates this task is blocked by another
 - Tasks go at the end of the target column section.
 
 ### Move Tasks
@@ -40,6 +44,12 @@ When marking a task done:
 2. Add `done:YYYY-MM-DD` metadata.
 3. Move the task to the `## Done` column.
 4. Recalculate progress percentage and update the project's README and `_registry.md`.
+5. **Recurring tasks:** If the completed task has a `recur:` tag, auto-create a new instance in the Backlog column with:
+   - Same description, priority, and tags
+   - New `due:` date calculated from the interval (`recur:weekly` = +7 days, `recur:monthly` = +30 days, `recur:quarterly` = +90 days from the current due date, or from today if no due date)
+   - The `recur:` tag preserved on the new task
+   - Log a `[note]` entry: "Recurring task regenerated: {description} — next due {date}"
+6. **Dependency check:** After completing a task, search all `board.md` files for tasks with `blocked-by:` metadata that matches the completed task's description (substring match). If found, flag newly unblocked tasks in the output: "Unblocked: {task description} in {project}"
 
 **Progress calculation:** `(done tasks / total tasks) * 100`, rounded to nearest integer.
 
@@ -80,9 +90,9 @@ Support filtering tasks across projects by:
 
 ### Board Display
 
-When showing a board, read the project's `board.md` and display it formatted. Include a summary line:
+When showing a board, read the project's `board.md` and display it formatted. Show `BLOCKED` indicator next to tasks that have a `blocked-by:` reference where the referenced task is NOT in the Done column. Include a summary line:
 ```
-Summary: X backlog | Y in-progress | Z done | N total | Progress: XX%
+Summary: X backlog | Y in-progress | Z done | N total | Progress: XX% | B blocked
 ```
 
 ## File Paths

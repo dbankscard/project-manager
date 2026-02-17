@@ -21,6 +21,8 @@ A master registry at `projects/_registry.md` serves as a cached index of all pro
 3. **Task syntax** uses markdown checkboxes with inline metadata:
    ```
    - [ ] Task description `P1` `#tag` `due:2026-03-15`
+   - [ ] Recurring task `P2` `#security` `due:2026-03-15` `recur:monthly`
+   - [ ] Blocked task `P1` `blocked-by:Other task description`
    - [x] Completed task `P2` `#tag` `done:2026-02-10`
    ```
 4. **Progress tracking** — percentage in README and registry, calculated from board task completion.
@@ -35,6 +37,8 @@ A master registry at `projects/_registry.md` serves as a cached index of all pro
 - Inline metadata on tasks: backtick-wrapped — `` `P1` `#migration` `due:2026-05-01` ``
 - Priority levels: `P0` (critical), `P1` (high), `P2` (medium), `P3` (low)
 - Kanban columns: backlog, research, in-progress, review, done
+- Recurrence: `recur:weekly` (+7 days), `recur:monthly` (+30 days), `recur:quarterly` (+90 days) — auto-creates next instance on completion
+- Dependencies: `blocked-by:Task text fragment` — marks task as blocked until the referenced task is done
 
 ## Natural Language Interpretation
 
@@ -58,6 +62,10 @@ When the user gives vague input, map it to actions:
 - "Goals" / "Objectives" / "OKRs" → Read `goals.yaml` and report
 - "Setup" / "Check connections" / "What's connected" → `/setup`
 - "Run this" / "Execute" / "Build the scripts" / "Generate a report" → `/run`
+- "Archive this" / "Clean up old projects" / "Shelve this" → `/archive`
+- "Weekly" / "Status report" / "What did I do this week" → `/weekly`
+- "Done for the day" / "Wrap up" / "EOD" → `/eod`
+- "Hand off" / "Knowledge transfer" / "Project summary" → `/handoff`
 
 ## Dashboard Display Format
 
@@ -113,7 +121,19 @@ The system integrates with Slack via MCP tools. Config is in `projects/_slack.md
 
 ## Templates
 
-Templates live in `templates/` and are used when scaffolding new projects. They contain placeholder tokens (`{{name}}`, `{{slug}}`, etc.) that get replaced during project creation.
+Templates live in `templates/{template-name}/` and are used when scaffolding new projects. They contain placeholder tokens (`{{name}}`, `{{slug}}`, etc.) that get replaced during project creation.
+
+Available templates:
+
+| Template | Use Case | Pre-populated With |
+|----------|----------|-------------------|
+| `default` | Generic projects | Empty board, generic README |
+| `migration` | System/platform migrations | Audit, pilot, rollout, cutover, decommission phases |
+| `vendor-eval` | Vendor evaluations | Requirements, RFP, demos, POC, security review, procurement |
+| `security-audit` | Security audits | Scope, inventory, assess, findings, remediate, verify |
+| `incident` | Incident response | Detect, triage, contain, eradicate, recover, post-mortem |
+
+Use `--template` with `/new-project` to select a template.
 
 ## Goals & Objectives
 

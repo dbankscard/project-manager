@@ -42,6 +42,15 @@ Manage the vendor CRM:
 4. **Track escalation paths** — keep support contacts and rep info current.
 5. **Suggest check-ins** — prioritized list of vendors to schedule QBRs or reviews with.
 
+### End of Day Wrap-Up (`/eod`)
+
+Review the day's work and prepare for tomorrow:
+
+1. **Review today's activity** — read all `projects/*/log.md` and `projects/*/board.md` for entries and tasks with today's date.
+2. **Detect unlogged work** — compare tasks marked done today against `[change]` log entries. Flag tasks completed without corresponding log entries and suggest entries to fill gaps.
+3. **Plan tomorrow** — identify top 3 highest-priority tasks from in-progress and backlog, surface due dates and upcoming deadlines.
+4. **If `--commit`** — stage project file changes, create a summary commit, and push (after user confirmation).
+
 ### Goal Alignment Checks
 
 When coordinating with other agents:

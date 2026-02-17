@@ -118,7 +118,31 @@ if [[ -f "$GOALS_FILE" ]]; then
   fi
 fi
 
-# --- Check 6: Priority inversion (P3 in-progress while P1 in backlog) ---
+# --- Check 6: Newly unblocked tasks (blocked-by task is in Done column) ---
+for board in "${BOARDS[@]}"; do
+  SLUG=$(basename "$(dirname "$board")")
+  while IFS= read -r line; do
+    BLOCKED_BY=$(echo "$line" | grep -oE 'blocked-by:[^`]+' | sed 's/blocked-by://' | sed 's/`$//' | xargs)
+    if [[ -n "$BLOCKED_BY" ]]; then
+      # Check if the blocking task is in Done column across all boards
+      for check_board in "${BOARDS[@]}"; do
+        DONE_MATCH=$(awk -v pattern="$BLOCKED_BY" '
+          /^## Done$/ { found=1; next }
+          found && /^## / { found=0; next }
+          found && /\[x\]/ && index($0, pattern) { count++ }
+          END { print count+0 }
+        ' "$check_board" 2>/dev/null || echo "0")
+        if [[ "$DONE_MATCH" -gt 0 ]]; then
+          TASK_DESC=$(echo "$line" | sed 's/^- \[ \] //' | sed 's/ `[^`]*`//g' | head -c 60)
+          NUDGES="${NUDGES}[advisor] Task unblocked in $SLUG: $TASK_DESC (blocking task \"$BLOCKED_BY\" is done)\n"
+          break
+        fi
+      done
+    fi
+  done < <(grep 'blocked-by:' "$board" 2>/dev/null | grep '^\- \[ \]' || true)
+done
+
+# --- Check 7: Priority inversion (P3 in-progress while P1 in backlog) ---
 HAS_P1_BACKLOG=false
 HAS_LOW_PRI_WIP=false
 for board in "${BOARDS[@]}"; do

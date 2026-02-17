@@ -118,11 +118,36 @@ Agents produce artifacts — scripts, reports, config profiles, runbooks — sav
 ### End of Day
 
 ```
+# End-of-day wrap-up — review work, detect gaps, plan tomorrow
+/eod
+
+# Auto-commit today's changes
+/eod --commit
+
 # Generate standup from today's activity
 /standup
 
 # Run a retrospective on your work patterns
 /retro
+```
+
+### Reporting & Handoff
+
+```
+# Weekly summary report for stakeholders
+/weekly
+
+# Post weekly to Slack
+/weekly --slack
+
+# Generate a knowledge transfer document
+/handoff my-project
+
+# Archive a completed project
+/archive old-project
+
+# List archived projects
+/archive --list
 ```
 
 ---
@@ -146,6 +171,10 @@ Agents produce artifacts — scripts, reports, config profiles, runbooks — sav
 | `/capture` | Capture Slack threads into project logs |
 | `/setup` | Check MCP connections, files, agents, and system health |
 | `/run` | Execute tasks with a team of agents — research, build, document |
+| `/weekly` | Weekly summary report for stakeholders |
+| `/eod` | End-of-day wrap-up — review work, detect gaps, plan tomorrow |
+| `/archive` | Archive, restore, or list archived projects |
+| `/handoff` | Generate a knowledge transfer document for a project |
 
 Most commands support `--slack` to post output to a Slack channel.
 
@@ -186,12 +215,17 @@ project-manager/
 │       ├── log.md                # Activity log
 │       └── artifacts/            # Generated scripts, reports, configs
 ├── templates/                    # Scaffolding for new projects
+│   ├── default/                 # Generic project template
+│   ├── migration/               # System/platform migration template
+│   ├── vendor-eval/             # Vendor evaluation template
+│   ├── security-audit/          # Security audit template
+│   └── incident/                # Incident response template
 ├── sounds/                       # Sound effects for hooks
 └── .claude/
     ├── settings.json             # Hook config + agent teams
     ├── agents/                   # 5 specialized agent definitions
-    ├── commands/                 # 15 slash command definitions
-    └── hooks/                    # 6 automation hooks
+    ├── commands/                 # 19 slash command definitions
+    └── hooks/                    # 9 automation hooks
 ```
 
 ---
@@ -203,8 +237,11 @@ Hooks run automatically during your session:
 | Hook | Trigger | What It Does |
 |------|---------|-------------|
 | Session start | On launch | Shows project count, active tasks, blockers |
-| Advisor nudge | On launch | Flags overdue tasks, stale goals, WIP overload |
+| Advisor nudge | On launch | Flags overdue tasks, stale goals, WIP overload, unblocked dependencies |
 | Recent activity | On launch | Summarizes what you worked on recently |
+| EOD reminder | On launch (after 4 PM) | Detects unlogged work, nudges `/eod` |
+| Weekly reminder | On launch (Fri/Mon) | Nudges `/weekly` if there's reportable activity |
+| Archive suggestion | On launch | Flags done or 30+ day dormant projects for archival |
 | Sync progress | After edits | Auto-updates project progress when boards change |
 | Validate log | Before edits | Enforces log entry structure |
 | Protect registry | Before writes | Prevents registry corruption |
@@ -272,6 +309,49 @@ The `/run` command uses experimental agent teams. This is already enabled in `.c
   }
 }
 ```
+
+---
+
+## Templates
+
+Create projects from domain-specific templates with pre-populated boards and risk assessments:
+
+```
+/new-project "Migrate Mosyle to Jamf" --template migration
+/new-project "EDR Vendor Evaluation" --template vendor-eval
+/new-project "Q1 Security Audit" --template security-audit
+/new-project "Production Outage" --template incident
+```
+
+| Template | Use Case | Pre-populated Phases |
+|----------|----------|---------------------|
+| `default` | Generic projects | Empty board |
+| `migration` | System/platform migrations | Audit, pilot, rollout, cutover, decommission |
+| `vendor-eval` | Vendor evaluations | Requirements, RFP, demos, POC, security review, procurement |
+| `security-audit` | Security audits | Scope, inventory, assess, findings, remediate, verify |
+| `incident` | Incident response | Detect, triage, contain, eradicate, recover, post-mortem |
+
+## Task Features
+
+### Recurring Tasks
+
+Tasks can auto-regenerate on completion:
+
+```
+/task add my-project "Review patch compliance" P2 #security due:2026-03-12 recur:monthly
+```
+
+When marked done, a new instance appears in Backlog with the next due date. Intervals: `recur:weekly` (+7 days), `recur:monthly` (+30 days), `recur:quarterly` (+90 days).
+
+### Task Dependencies
+
+Block tasks until prerequisites are complete:
+
+```
+/task add my-project "Deploy profiles to prod" P1 blocked-by:Test profiles on pilot
+```
+
+When the blocking task is completed, the system flags newly unblocked tasks. The board view shows a `BLOCKED` indicator.
 
 ---
 

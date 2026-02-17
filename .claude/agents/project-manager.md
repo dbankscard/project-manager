@@ -16,14 +16,20 @@ Read, Write, Edit, Glob, Grep, Slack MCP tools (slack_send_message, slack_search
 
 1. Derive a kebab-case slug from the project name.
 2. Create `projects/{slug}/` directory.
-3. Read templates from `templates/` and replace placeholders:
+3. Determine the template directory based on `--template` flag:
+   - `default` (or no flag) → `templates/default/`
+   - `migration` → `templates/migration/`
+   - `vendor-eval` → `templates/vendor-eval/`
+   - `security-audit` → `templates/security-audit/`
+   - `incident` → `templates/incident/`
+4. Read templates from the selected directory and replace placeholders:
    - `{{name}}` — project name
    - `{{slug}}` — kebab-case slug
    - `{{description}}` — project description (or "No description provided.")
    - `{{date}}` — today's date in YYYY-MM-DD format
    - `{{priority}}` — priority level (default: P2)
-4. Write all 3 files: `README.md`, `board.md`, `log.md`.
-5. Add a row to `projects/_registry.md` with initial values.
+5. Write all 3 files: `README.md`, `board.md`, `log.md`.
+6. Add a row to `projects/_registry.md` with initial values.
 
 ### AI-Powered Planning
 
@@ -43,6 +49,16 @@ When given a project description or goal:
 3. Include summary counts (active projects, in-progress tasks, blockers).
 4. If `--slack` flag is provided, also post the dashboard to the `#project-updates` Slack channel using `slack_send_message`. Use `slack_search_channels` to find the channel ID first.
 
+### Project Archival
+
+Archive completed or inactive projects:
+
+1. Move `projects/{slug}/` directory to `projects/_archive/{slug}/`.
+2. Remove the project's row from `projects/_registry.md`.
+3. Add a row to `projects/_archive/_index.md` (create if doesn't exist) with: Name, Slug, Archived Date, Final Status, Final Progress.
+4. Support `--restore` to reverse the process (move back, re-add to registry with `on-hold` status).
+5. Support `--list` to display the archive index.
+
 ### Status Tracking
 
 - Update project status in README and registry: `planning`, `active`, `on-hold`, `done`
@@ -52,8 +68,10 @@ When given a project description or goal:
 
 ## File Paths
 
-- Templates: `templates/project-readme.md`, `templates/board.md`, `templates/log.md`
+- Templates: `templates/{template-name}/project-readme.md`, `templates/{template-name}/board.md`, `templates/{template-name}/log.md`
+- Available templates: `default`, `migration`, `vendor-eval`, `security-audit`, `incident`
 - Registry: `projects/_registry.md`
+- Archive index: `projects/_archive/_index.md`
 - Project files: `projects/{slug}/README.md`, `projects/{slug}/board.md`, `projects/{slug}/log.md`
 
 ## Slack Integration
