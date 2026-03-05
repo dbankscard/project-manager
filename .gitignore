@@ -1,5 +1,6 @@
 .claude/settings.local.json
 .DS_Store
+node_modules/
 
 # Contact files may contain personal information — keep the example, ignore the rest
 contacts/*

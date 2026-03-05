@@ -41,15 +41,14 @@ Test each MCP server by attempting a lightweight read-only call. Do NOT send any
 - If it works: report Connected, show workspace name if available
 - If it fails: report Not Connected
 
-**Gmail** (if available)
-- Try: a simple email search or list
-- If it works: report Connected
-- If it fails: report Not Connected
-
-**Google Calendar** (if available)
-- Try: `get-current-time` or `list-events` for today
-- If it works: report Connected
-- If it fails: report Not Connected
+**Google Workspace (`gws`)** — Gmail, Calendar, Drive
+- The `gws` MCP server is configured in `.mcp.json` and provides Gmail, Calendar, and Drive tools.
+- Try: any `gws_gmail_*` tool (e.g., list recent messages) for Gmail connectivity.
+- Try: any `gws_calendar_*` tool (e.g., list today's events) for Calendar connectivity.
+- Try: any `gws_drive_*` tool (e.g., list recent files) for Drive connectivity.
+- If tools exist and respond: report Connected for each service.
+- If tools exist but fail with auth errors: report "Not Authenticated — run `gws auth setup` then `gws auth login`".
+- If no `gws_*` tools are available at all: report "Not Installed".
 
 **Important:** If an MCP tool doesn't exist at all (no matching tool available), report "Not Installed" rather than "Not Connected". Only test tools that are actually available.
 
@@ -94,8 +93,9 @@ Check that all command files exist in `.claude/commands/`:
 | Server | Status | Notes |
 |--------|--------|-------|
 | Slack | Connected | workspace: your-workspace |
-| Gmail | Not Installed | — |
-| Google Calendar | Not Installed | — |
+| gws: Gmail | Connected | via @googleworkspace/cli |
+| gws: Calendar | Connected | via @googleworkspace/cli |
+| gws: Drive | Connected | via @googleworkspace/cli |
 
 ## Core Files
 
@@ -113,17 +113,14 @@ Check that all command files exist in `.claude/commands/`:
 
 ## Recommendations
 
-1. **Install Gmail MCP** — Enables /triage email scanning and /gm inbox briefing
+1. **Authenticate Google Workspace** — Enables /triage email scanning, /gm calendar + inbox briefing
    ```
-   npx mcporter list --http-url https://gmail-mcp-url --name gmail
+   gws auth setup     # configure OAuth client (interactive)
+   gws auth login     # browser OAuth flow — approve Gmail, Calendar, Drive scopes
    ```
+   Then restart Claude Code so the `gws` MCP server reconnects with credentials.
 
-2. **Install Google Calendar MCP** — Enables /gm calendar view
-   ```
-   npx mcporter list --http-url https://calendar-mcp-url --name google-calendar
-   ```
-
-3. **Add vendor contacts** — Run `/enrich "Vendor Name"` to start tracking vendors
+2. **Add vendor contacts** — Run `/enrich "Vendor Name"` to start tracking vendors
 
 ## Quick Fixes
 

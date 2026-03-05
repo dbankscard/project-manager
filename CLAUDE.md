@@ -155,9 +155,16 @@ Use `--template` with `/new-project` to select a template.
 
 ## MCP Integration
 
-This system uses [MCPorter](https://github.com/steipete/mcporter) to manage MCP server connections. MCP servers extend Claude's capabilities to external services like Slack, Gmail, Google Calendar, and more.
+MCP servers extend Claude's capabilities to external services like Slack, Gmail, Google Calendar, and more.
 
-- Configure MCP servers via MCPorter for inbox triage, calendar integration, and Slack connectivity.
+**Google Workspace** — Gmail, Calendar, Drive are provided by [`@googleworkspace/cli`](https://github.com/googleworkspace/cli) (`gws`).
+- Configured in `.mcp.json` as the `gws` MCP server with services: `gmail`, `calendar`, `drive`.
+- Tools follow the pattern `gws_gmail_*`, `gws_calendar_*`, `gws_drive_*`.
+- To add more services (e.g., `docs`, `sheets`), update the `-s` flag in `.mcp.json`.
+- Auth: `gws auth setup` then `gws auth login` (browser OAuth, credentials stored in OS Keyring).
+
+**Slack** — provided via [MCPorter](https://github.com/steipete/mcporter) or direct MCP config.
+
 - The system degrades gracefully — if an MCP server isn't connected, commands skip that channel silently.
 - `/triage` and `/gm` automatically detect available MCP tools and adapt their output.
 

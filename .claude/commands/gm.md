@@ -16,11 +16,11 @@ None.
 
 Delegate to the **chief-of-staff** agent to:
 
-1. **Calendar** (if Google Calendar MCP available):
-   - Fetch today's events.
+1. **Calendar** (if `gws` MCP available):
+   - Use `gws_calendar_*` tools to fetch today's events.
    - List meetings with times, attendees, and any prep notes.
    - Flag conflicts or back-to-back blocks.
-   - If MCP not available, skip this section silently.
+   - If no `gws_calendar_*` tools are available, skip this section silently.
 
 2. **Projects**:
    - Read `projects/_registry.md`.
@@ -34,11 +34,11 @@ Delegate to the **chief-of-staff** agent to:
    - Flag goals that are at risk or behind schedule.
    - If `goals.yaml` doesn't exist, skip this section silently.
 
-4. **Inbox scan** (if Slack/email MCP available):
-   - Quick scan for unread messages or mentions since last session.
-   - Surface anything urgent or time-sensitive.
+4. **Inbox scan** (if Slack and/or `gws` MCP available):
+   - If Slack MCP available: scan for unread messages or mentions since last session.
+   - If `gws_gmail_*` tools available: scan inbox for unread/recent emails, surface anything urgent or time-sensitive.
    - Do NOT read every message in detail — just flag what needs attention.
-   - If MCP not available, skip this section silently.
+   - If neither MCP is available, skip this section silently.
 
 5. **Synthesize**:
    - Identify the most urgent items across all sources.
