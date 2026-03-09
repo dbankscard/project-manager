@@ -3,6 +3,10 @@
     "gws": {
       "command": "gws",
       "args": ["mcp", "-s", "gmail,calendar,drive"]
+    },
+    "notion": {
+      "type": "http",
+      "url": "https://mcp.notion.com/mcp"
     }
   }
 }

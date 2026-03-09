@@ -163,10 +163,16 @@ MCP servers extend Claude's capabilities to external services like Slack, Gmail,
 - To add more services (e.g., `docs`, `sheets`), update the `-s` flag in `.mcp.json`.
 - Auth: `gws auth setup` then `gws auth login` (browser OAuth, credentials stored in OS Keyring).
 
+**Notion** — provided by Notion's official remote MCP server.
+- Configured in `.mcp.json` as the `notion` MCP server with `type: "http"`.
+- Tools follow the pattern `notion_*` — search, read/create pages, query databases, manage blocks and comments.
+- Auth: browser OAuth flow on first use — no API token needed.
+- Use cases: search notes/docs, pull meeting notes into briefings, cross-reference project docs.
+
 **Slack** — provided via [MCPorter](https://github.com/steipete/mcporter) or direct MCP config.
 
 - The system degrades gracefully — if an MCP server isn't connected, commands skip that channel silently.
-- `/triage` and `/gm` automatically detect available MCP tools and adapt their output.
+- `/triage`, `/gm`, and other commands automatically detect available MCP tools and adapt their output.
 
 ## Chief of Staff Features
 

@@ -22,7 +22,8 @@ Delegate to the **chief-of-staff** agent to:
 1. **Scan channels**:
    - If Slack MCP available: use `slack_search_public_and_private` to find recent messages mentioning the user, DMs, and threads the user is part of.
    - If `gws_gmail_*` tools available: scan Gmail inbox for unread/recent items. Use `gws_gmail_*` tools to list and read messages.
-   - If no MCP channels are available (neither Slack nor gws), inform the user and stop.
+   - If `notion_*` tools available: search for recently updated Notion pages, comments, or mentions relevant to the user.
+   - If no MCP channels are available (neither Slack, gws, nor Notion), inform the user and stop.
 
 2. **Read project context**:
    - Read `projects/_registry.md` to get the list of active projects and their slugs.

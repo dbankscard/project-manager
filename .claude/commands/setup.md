@@ -50,6 +50,13 @@ Test each MCP server by attempting a lightweight read-only call. Do NOT send any
 - If tools exist but fail with auth errors: report "Not Authenticated — run `gws auth setup` then `gws auth login`".
 - If no `gws_*` tools are available at all: report "Not Installed".
 
+**Notion**
+- The `notion` MCP server is configured in `.mcp.json` as a remote HTTP server (`https://mcp.notion.com/mcp`).
+- Try: any `notion_*` tool (e.g., search for a page) for connectivity.
+- If tools exist and respond: report Connected.
+- If tools exist but fail with auth errors: report "Not Authenticated — reconnect and complete the browser OAuth flow".
+- If no `notion_*` tools are available at all: report "Not Installed".
+
 **Important:** If an MCP tool doesn't exist at all (no matching tool available), report "Not Installed" rather than "Not Connected". Only test tools that are actually available.
 
 ### 3. Hook Verification
@@ -96,6 +103,7 @@ Check that all command files exist in `.claude/commands/`:
 | gws: Gmail | Connected | via @googleworkspace/cli |
 | gws: Calendar | Connected | via @googleworkspace/cli |
 | gws: Drive | Connected | via @googleworkspace/cli |
+| Notion | Connected | via mcp.notion.com (OAuth) |
 
 ## Core Files
 
@@ -120,7 +128,9 @@ Check that all command files exist in `.claude/commands/`:
    ```
    Then restart Claude Code so the `gws` MCP server reconnects with credentials.
 
-2. **Add vendor contacts** — Run `/enrich "Vendor Name"` to start tracking vendors
+2. **Connect Notion** — On first use, complete the browser OAuth flow when prompted. No API token needed.
+
+3. **Add vendor contacts** — Run `/enrich "Vendor Name"` to start tracking vendors
 
 ## Quick Fixes
 

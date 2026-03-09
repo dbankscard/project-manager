@@ -34,11 +34,12 @@ Delegate to the **chief-of-staff** agent to:
    - Flag goals that are at risk or behind schedule.
    - If `goals.yaml` doesn't exist, skip this section silently.
 
-4. **Inbox scan** (if Slack and/or `gws` MCP available):
+4. **Inbox scan** (if Slack, `gws`, and/or Notion MCP available):
    - If Slack MCP available: scan for unread messages or mentions since last session.
    - If `gws_gmail_*` tools available: scan inbox for unread/recent emails, surface anything urgent or time-sensitive.
+   - If `notion_*` tools available: search for recently updated pages or docs relevant to active projects.
    - Do NOT read every message in detail — just flag what needs attention.
-   - If neither MCP is available, skip this section silently.
+   - If no MCP sources are available, skip this section silently.
 
 5. **Synthesize**:
    - Identify the most urgent items across all sources.
