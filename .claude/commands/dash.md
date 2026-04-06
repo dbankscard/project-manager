@@ -27,9 +27,9 @@ Delegate to the **project-manager** agent to:
 ```markdown
 # Project Dashboard
 
-| Project | Status | Priority | Progress | Next Milestone |
-|---------|--------|----------|----------|----------------|
-| [Project Name](projects/slug/README.md) | active | P1 | 35% | Milestone name |
+| Project | Repo | Status | Priority | Progress | Next Milestone |
+|---------|------|--------|----------|----------|----------------|
+| [Project Name](projects/slug/README.md) | ~/Projects/repo-name | active | P1 | 35% | Milestone name |
 
 ---
 
@@ -38,12 +38,14 @@ Delegate to the **project-manager** agent to:
 - Objective name — ████░░░░░░ 40%
 
 ---
+Workspace: X tracked repos in ~/Projects | Y active worktrees | Z with uncommitted changes
 Summary: X active projects | Y tasks in progress | Z blockers
 ```
 
 If no projects exist, display:
 ```
 No projects tracked yet. Use /new-project to create one.
+Found X git repos in ~/Projects/ — use /new-project to start tracking them.
 ```
 
 ## Slack Posting

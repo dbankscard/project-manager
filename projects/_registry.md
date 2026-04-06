@@ -1,4 +1,4 @@
 # Project Registry
 
-| Project | Status | Priority | Progress | Next Milestone |
-|---------|--------|----------|----------|----------------|
+| Project | Repo | Status | Priority | Progress | Next Milestone |
+|---------|------|--------|----------|----------|----------------|

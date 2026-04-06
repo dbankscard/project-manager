@@ -63,6 +63,16 @@
             "statusMessage": "Checking for archivable projects..."
           }
         ]
+      },
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/worktree-status.sh",
+            "statusMessage": "Scanning workspace..."
+          }
+        ]
       }
     ],
     "PostToolUse": [

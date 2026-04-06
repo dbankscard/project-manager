@@ -25,23 +25,35 @@ Create and scaffold a new project.
 Delegate to the **project-manager** agent to:
 
 1. Parse the project name and derive a kebab-case slug.
-2. Create `projects/{slug}/` directory.
-3. Determine template directory: `templates/{template}/` (default: `templates/default/`).
-4. Read templates from the selected directory and replace all `{{placeholder}}` tokens:
+2. **Check `~/Projects/` for an existing repo:**
+   - Look for `~/Projects/{slug}` or `~/Projects/{name}` (case-insensitive match).
+   - If found: link to it — read its git state (branch, remote, tech stack from package.json/go.mod/etc.).
+   - If not found: scaffold a new git repo at `~/Projects/{slug}` with `git init`, a README.md, and `.gitignore`.
+3. Create `projects/{slug}/` tracking directory in the project-manager repo.
+4. Determine template directory: `templates/{template}/` (default: `templates/default/`).
+5. Read templates from the selected directory and replace all `{{placeholder}}` tokens:
    - `{{name}}` → project name
    - `{{slug}}` → kebab-case slug
    - `{{description}}` → provided description or "No description provided."
    - `{{date}}` → today's date (YYYY-MM-DD)
    - `{{priority}}` → priority level
-5. Write `README.md`, `board.md`, and `log.md` into the project directory.
-6. Add a row to `projects/_registry.md`.
-7. Display confirmation with the created file paths and template used.
+   - `{{repo}}` → `~/Projects/{repo-name}` path
+6. Write `README.md`, `board.md`, and `log.md` into the tracking directory. README includes frontmatter:
+   ```yaml
+   ---
+   repo: ~/Projects/{repo-name}
+   created: YYYY-MM-DD
+   ---
+   ```
+7. Add a row to `projects/_registry.md` including the `Repo` column.
+8. Display confirmation with the created file paths, linked repo, and template used.
 
 ## Output
 
 ```
 Created project: {name}
   Slug: {slug}
+  Repo: ~/Projects/{repo-name} (linked existing / scaffolded new)
   Priority: {priority}
   Files:
     - projects/{slug}/README.md

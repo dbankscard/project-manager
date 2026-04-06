@@ -21,6 +21,8 @@ Add tasks to a project's `board.md` file under the specified column (default: Ba
 - [ ] Task description `P2` `#tag` `due:YYYY-MM-DD`
 - [ ] Task description `P2` `#tag` `due:YYYY-MM-DD` `recur:monthly`
 - [ ] Task description `P1` `blocked-by:Other task description`
+- [ ] Task description `P1` `pr:#42` `issue:#15`
+- [ ] Task description `P2` `commit:abc1234`
 ```
 
 - Priority: `P0`, `P1`, `P2`, `P3` (default P2)
@@ -28,6 +30,7 @@ Add tasks to a project's `board.md` file under the specified column (default: Ba
 - Due date: `due:YYYY-MM-DD` — optional
 - Recurrence: `recur:weekly`, `recur:monthly`, `recur:quarterly` — optional, auto-creates next instance on completion
 - Dependencies: `blocked-by:Task text fragment` — optional, indicates this task is blocked by another
+- Git references: `pr:#N`, `issue:#N`, `commit:SHA` — optional, links task to real repo activity
 - Tasks go at the end of the target column section.
 
 ### Move Tasks
@@ -95,12 +98,22 @@ When showing a board, read the project's `board.md` and display it formatted. Sh
 Summary: X backlog | Y in-progress | Z done | N total | Progress: XX% | B blocked
 ```
 
+### Repo Sync
+
+When a tracked project has a linked repo in `~/Projects/` (check README frontmatter for `repo:` field):
+
+1. **Pull open PRs as tasks** — if the repo has a GitHub remote, use `gh pr list` to surface open PRs. These can appear in the "Review" column.
+2. **Pull open issues as tasks** — use `gh issue list` to surface open issues. These can appear in the "Backlog" column.
+3. **Link tasks to commits** — when completing a task, reference the commit SHA if applicable: `` `commit:abc1234` ``.
+4. **Sync on demand** — `/board {slug} --sync` refreshes board state from the linked repo.
+
 ## File Paths
 
 - Board files: `projects/{slug}/board.md`
 - Log files: `projects/{slug}/log.md` (for standup blocker detection)
 - Registry: `projects/_registry.md` (for progress updates)
-- Project README: `projects/{slug}/README.md` (for progress updates)
+- Project README: `projects/{slug}/README.md` (for progress updates and `repo:` path)
+- Linked repos: `~/Projects/` (for git state and GitHub integration)
 
 ## Guidelines
 

@@ -5,7 +5,7 @@ Execute a task — spawn a team of agents to do the actual work in parallel, pro
 ## Usage
 
 ```
-/run {project-slug} "Task description or search text" [--dry-run]
+/run {project-slug} "Task description or search text" [--dry-run] [--worktree]
 ```
 
 ## Parameters
@@ -13,6 +13,7 @@ Execute a task — spawn a team of agents to do the actual work in parallel, pro
 - **project-slug** (required): The project to work within.
 - **task** (required): Task description — matched against board tasks. If no exact match, uses the text as the work instruction.
 - **--dry-run** (optional): Show the execution plan without doing the work. Good for reviewing before committing agent time.
+- **--worktree** (optional): Spawn writing agents in isolated git worktrees to prevent file conflicts. Auto-suggested when 2+ writing agents target the same repo. Each agent gets its own branch and merges back after completion.
 
 ## Execution
 
@@ -27,12 +28,13 @@ Execute a task — spawn a team of agents to do the actual work in parallel, pro
 ### Step 2: Gather Context
 
 Before starting work, read:
-- `projects/{slug}/README.md` — project goals, milestones, risks
+- `projects/{slug}/README.md` — project goals, milestones, risks, and linked repo path
 - `projects/{slug}/log.md` — recent decisions, research, and blockers
 - `projects/{slug}/board.md` — related tasks and current state
 - `projects/{slug}/artifacts/` — any existing artifacts to build on
 - `goals.yaml` — confirm goal alignment
 - `contacts/` — relevant vendor info if the task involves a vendor
+- **Linked repo** — if the project has a `repo:` path in `~/Projects/`, read its current git state (branch, recent commits, structure)
 
 ### Step 3: Plan the Work
 
@@ -86,6 +88,17 @@ Create a team using TeamCreate and spawn agents based on the plan:
 - **writer** (`general-purpose`): Generates reports, runbooks, documentation. Has full file access.
 
 Agents run in the background. Monitor via TaskList and collect results as they complete.
+
+### Step 4.5: Worktree Isolation (if `--worktree`)
+
+When `--worktree` is enabled:
+
+1. **Resolve repo path** — read the project README for the `repo:` frontmatter to find the `~/Projects/` path.
+2. **Spawn with isolation** — pass `isolation: "worktree"` to Agent tool calls for writing agents (builder, writer). Each gets its own branch: `run-{slug}-{agent-type}-{timestamp}`.
+3. **Researcher stays shared** — read-only agents don't need worktree isolation.
+4. **Auto-suggest** — if 2+ writing agents will target the same repo, recommend `--worktree` in the execution plan (Step 3).
+
+After all agents complete, merge worktree branches back sequentially. Flag any merge conflicts for user resolution.
 
 ### Step 5: Collect and Assemble
 

@@ -41,7 +41,14 @@ Delegate to the **chief-of-staff** agent to:
    - Do NOT read every message in detail — just flag what needs attention.
    - If no MCP sources are available, skip this section silently.
 
-5. **Synthesize**:
+5. **Workspace** (scan `~/Projects/`):
+   - Scan `~/Projects/` for git repos with recent activity (commits in last 24-48h).
+   - Show repos with uncommitted changes.
+   - List active worktrees across all tracked projects.
+   - Flag untracked repos with recent activity — suggest `/new-project`.
+   - Skip this section if nothing to report.
+
+6. **Synthesize**:
    - Identify the most urgent items across all sources.
    - Generate a focus recommendation for the day.
 
@@ -69,6 +76,11 @@ Delegate to the **chief-of-staff** agent to:
 ## Goals
 - Goal name — on track (65%)
 - Goal name — at risk (30%, behind by 2 weeks)
+
+## Workspace
+- jamf-mcp-server: 3 commits yesterday, 2 uncommitted files
+- project-manager: worktree active (focus-worktrees-2026-04-06)
+- banksbot: untracked — recent activity detected, consider /new-project
 
 ## Urgent
 - [blocker] Project X: blocking issue description

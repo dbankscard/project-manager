@@ -4,15 +4,34 @@ A file-based project management system operated entirely through Claude Code. Ma
 
 ## System Overview
 
-Every project consists of exactly **3 files**:
+### Projects Directory
+
+**`~/Projects/` is the projects directory.** Every tracked project maps to a real git repo (or directory) in `~/Projects/`. The project manager's tracking files are metadata that reference and deeply integrate with these real codebases.
+
+- When creating a new project: if a repo already exists in `~/Projects/`, link to it. If not, scaffold a new git repo there.
+- The registry, boards, and logs all reference the real repo path.
+- Git state (branch, commits, PRs, issues) syncs into tracking files for a unified view.
+
+### Tracking Files
+
+Every project has **3 tracking files** in this repo:
 
 | File | Purpose |
 |------|---------|
-| `projects/{slug}/README.md` | Overview, goals, milestones, status, risks, links |
-| `projects/{slug}/board.md` | Kanban board — columns as H2 headers, tasks as checkboxes |
-| `projects/{slug}/log.md` | Reverse-chronological structured log entries |
+| `projects/{slug}/README.md` | Overview, goals, milestones, status, risks, links — includes `repo:` frontmatter pointing to `~/Projects/` path |
+| `projects/{slug}/board.md` | Kanban board — columns as H2 headers, tasks as checkboxes — can reference issues/PRs |
+| `projects/{slug}/log.md` | Reverse-chronological structured log entries — can sync from git commits |
 
-A master registry at `projects/_registry.md` serves as a cached index of all projects.
+A master registry at `projects/_registry.md` serves as a cached index of all projects, including repo paths.
+
+### Worktrees
+
+Claude Code's built-in git worktree support enables isolated work sessions in any tracked project's repo.
+
+- **`/focus {slug}`** — Enter a worktree in a project's real repo for focused work. Changes stay on a branch until merged back.
+- **`/run --worktree`** — Spawn parallel agents in isolated worktrees to prevent file conflicts.
+- **Chief-of-staff** monitors active worktrees across all `~/Projects/` repos via `/gm` and `/eod`.
+- Worktree lifecycle: create → work → merge or discard.
 
 ## Core Rules
 
@@ -66,16 +85,19 @@ When the user gives vague input, map it to actions:
 - "Weekly" / "Status report" / "What did I do this week" → `/weekly`
 - "Done for the day" / "Wrap up" / "EOD" → `/eod`
 - "Hand off" / "Knowledge transfer" / "Project summary" → `/handoff`
+- "Focus on..." / "Work on..." / "Deep work" → `/focus`
+- "What worktrees are open?" / "Active sessions" → `/focus status`
 
 ## Dashboard Display Format
 
 ```
 # Project Dashboard
 
-| Project | Status | Priority | Progress | Next Milestone |
-|---------|--------|----------|----------|----------------|
-| [Name](projects/slug/README.md) | active | P1 | 35% | Milestone name |
+| Project | Repo | Status | Priority | Progress | Next Milestone |
+|---------|------|--------|----------|----------|----------------|
+| [Name](projects/slug/README.md) | ~/Projects/repo-name | active | P1 | 35% | Milestone name |
 
+Workspace: X tracked repos in ~/Projects, Y active worktrees, Z with uncommitted changes
 Summary: X active projects, Y tasks in progress, Z blockers
 ```
 

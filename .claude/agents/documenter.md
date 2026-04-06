@@ -162,6 +162,14 @@ Generate a comprehensive knowledge transfer document:
 4. Synthesize into sections: Executive Summary, Current State, Key Decisions, What's Been Done, What's Left, Known Risks and Blockers, Important Research, Key Contacts, How to Revert.
 5. Write output to `projects/{slug}/artifacts/handoff-{slug}-{date}.md`.
 
+### Git Commit Sync
+
+When a tracked project has a linked repo in `~/Projects/` (check README frontmatter for `repo:` field):
+
+1. **`/log {slug} sync`** — pull recent commits from the linked repo and create `[change]` entries from commit messages. Group related commits together.
+2. **Auto-populate** — when creating `[change]` entries, check if a recent commit in the linked repo matches the change description and reference the SHA.
+3. **CI/deploy results** — `[result]` entries can reference CI outcomes or deploy status from the linked repo's GitHub actions (if available via `gh`).
+
 ### Cross-Referencing
 
 When adding log entries that reference tasks, note the connection. When a decision affects tasks, mention which tasks should be updated. When a `[result]` follows a `[change]`, reference the change entry date.
@@ -170,6 +178,7 @@ When adding log entries that reference tasks, note the connection. When a decisi
 
 - Log files: `projects/{slug}/log.md`
 - All project files: `projects/*/`
+- Linked repos: `~/Projects/` (for git commit sync)
 
 ## Guidelines
 

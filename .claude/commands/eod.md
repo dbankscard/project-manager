@@ -31,7 +31,12 @@ Delegate to the **chief-of-staff** agent to:
    - Surface any tasks due tomorrow or the next business day.
    - Flag upcoming blockers or deadlines.
 
-4. **If `--commit` is passed:**
+4. **Workspace cleanup:**
+   - Scan tracked repos in `~/Projects/` for uncommitted changes — suggest commit or stash.
+   - Detect active worktrees >24h old with no recent commits — suggest merge or discard.
+   - Present cleanup recommendations.
+
+5. **If `--commit` is passed:**
    - Stage all changes in `projects/` and `contacts/` directories.
    - Create a git commit with message: `Daily update — YYYY-MM-DD: X tasks completed, Y log entries`
    - Push to remote.
@@ -57,6 +62,10 @@ Delegate to the **chief-of-staff** agent to:
 ## Upcoming
 - [project] Task due YYYY-MM-DD (in X days)
 - [project] Blocker needs resolution by YYYY-MM-DD
+
+## Workspace
+- jamf-mcp-server: 2 uncommitted files on main — commit or stash?
+- project-manager: worktree `focus-worktrees` active (3h) — merge or keep?
 ```
 
 ## Examples
